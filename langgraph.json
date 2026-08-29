@@ -1,0 +1,24 @@
+{
+  "$schema": "https://langgra.ph/schema.json",
+  "dependencies": ["."],
+  "graphs": {
+    "sculpt_agent": {
+      "path": "./src/visculpt/workflow/server.py:graph",
+      "description": "Visual-centric Blender Sculpt workflow with SAM3 segmentation, grading, rollback, and human approval."
+    }
+  },
+  "env": ".env",
+  "http": {
+    "app": "./src/visculpt/workflow/webapp.py:app",
+    "enable_custom_route_auth": true,
+    "cors": {
+      "allow_origins": [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000"
+      ],
+      "allow_methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      "allow_headers": ["*"],
+      "allow_credentials": true
+    }
+  }
+}

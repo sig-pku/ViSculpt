@@ -1,0 +1,49 @@
+# Python environments and generated files
+.venv/
+**/.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+**/dist/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+web/.env*.local
+
+# Runtime state and artifacts
+.langgraph_api/
+output/
+*.log
+
+# SAM 3 checkpoints and generated inference data
+dependencies/sam3-inference-service/checkpoint/
+dependencies/sam3-inference-service/checkpoints/
+dependencies/sam3-inference-service/weights/
+dependencies/sam3-inference-service/sam3_logs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Web build output
+web/node_modules/
+web/.next/
+web/out/
+web/tsconfig.tsbuildinfo
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace

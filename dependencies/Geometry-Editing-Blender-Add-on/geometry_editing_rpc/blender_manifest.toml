@@ -1,0 +1,16 @@
+schema_version = "1.0.0"
+
+id = "geometry_editing_rpc"
+version = "1.0.0"
+name = "Geometry Editing RPC"
+tagline = "Connect ViSculpt to Blender through a local RPC server"
+maintainer = "ViSculpt Project"
+type = "add-on"
+
+tags = ["System"]
+blender_version_min = "4.2.0"
+license = ["SPDX:GPL-3.0-or-later"]
+
+[permissions]
+network = "Expose an HTTP JSON-RPC server on the local loopback interface"
+files = "Read and write selected screenshots and Blender state files"

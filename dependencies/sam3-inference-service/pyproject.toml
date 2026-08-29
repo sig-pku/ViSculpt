@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sam3-local-service"
+version = "1.0.0"
+description = "SAM 3 text-prompt segmentation service for ViSculpt"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "Meta AI Research"}]
+dependencies = [
+    "einops>=0.8",
+    "ftfy==6.1.1",
+    "gradio>=5.49,<7",
+    "huggingface-hub>=0.27",
+    "iopath>=0.1.10",
+    "modelscope>=1.37.1",
+    "numpy>=1.26,<2",
+    "pillow>=10",
+    "regex",
+    "timm>=1.0.17",
+    "torch==2.13.0",
+    "torchvision==0.28.0",
+    "typing-extensions>=4.10",
+]
+
+[project.scripts]
+sam3-gradio = "sam3.gradio_app:main"
+sam3-download-checkpoint = "sam3.checkpoint:main"
+
+[project.urls]
+Upstream = "https://github.com/facebookresearch/sam3"
+
+[tool.setuptools.packages.find]
+include = ["sam3*"]
+
+[tool.setuptools.package-data]
+sam3 = ["assets/*.txt.gz"]

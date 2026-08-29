@@ -1,0 +1,233 @@
+[llm]
+provider = "openai_compatible"
+base_url = "https://generativelanguage.googleapis.com"
+endpoint_path = "/v1beta/openai/chat/completions"
+api_key_env = "GEMINI_API_KEY"
+api_key_mode = "required"
+secrets_file = ".env"
+timeout_seconds = 180.0
+max_output_tokens = 4096
+effort = "low"
+anthropic_version = "2023-06-01"
+schema_profile = "gemini_compatible"
+max_retries = 2
+retry_backoff_seconds = 1.0
+
+[llm.runtime]
+test_prompt_path = "demo/LLM-API-Test/LLM-API-Test.txt"
+test_image_path = "demo/LLM-API-Test/Blender-Screenshot.png"
+
+[[llm.runtime.presets]]
+id = "lm_studio"
+label = "LM Studio"
+base_url = "http://127.0.0.1:1234"
+api_key_env = "LMSTUDIO_API_KEY"
+api_key_mode = "if_present"
+schema_profile = "full"
+openai_endpoint_path = "/v1/chat/completions"
+anthropic_endpoint_path = "/v1/messages"
+
+[[llm.runtime.presets]]
+id = "gemini"
+label = "Gemini"
+base_url = "https://generativelanguage.googleapis.com"
+api_key_env = "GEMINI_API_KEY"
+api_key_mode = "required"
+schema_profile = "gemini_compatible"
+openai_endpoint_path = "/v1beta/openai/chat/completions"
+
+[[llm.runtime.presets]]
+id = "qwen"
+label = "Qwen"
+base_url = "https://dashscope.aliyuncs.com"
+api_key_env = "DASHSCOPE_API_KEY"
+api_key_mode = "required"
+schema_profile = "full"
+openai_endpoint_path = "/compatible-mode/v1/chat/completions"
+anthropic_endpoint_path = "/apps/anthropic/v1/messages"
+
+[[llm.runtime.presets]]
+id = "xai"
+label = "xAI"
+base_url = "https://api.x.ai"
+api_key_env = "XAI_API_KEY"
+api_key_mode = "required"
+schema_profile = "full"
+openai_endpoint_path = "/v1/chat/completions"
+
+[llm.models]
+decomposer = "gemini-3.7-flash"
+translator = "gemini-3.7-flash"
+view_selector = "gemini-3.7-flash"
+quadloc = "gemini-3.7-flash"
+svg_pattern_generator = "gemini-3.7-flash"
+grader = "gemini-3.7-flash"
+retry_planner = "gemini-3.7-flash"
+
+[services]
+blender_rpc_url = "http://127.0.0.1:8765/rpc"
+blender_rpc_timeout_seconds = 35.0
+blender_rpc_access_token_env = "AGENTIC_GEOMETRY_BLENDER_RPC_ACCESS_TOKEN"
+blender_rpc_max_response_bytes = 67108864
+sam3_url = "http://127.0.0.1:7860"
+sam3_timeout_seconds = 300.0
+
+[workflow]
+artifact_root = "output/agent-workflow"
+decomposer_views = ["FRONT", "BACK", "LEFT", "RIGHT"]
+translator_views = ["FRONT", "BACK", "LEFT", "RIGHT"]
+standard_views = ["FRONT", "BACK", "LEFT", "RIGHT", "TOP", "BOTTOM"]
+frame = "SELECTED"
+max_subtasks = 10
+max_subtask_attempts = 3
+require_execution_approval = true
+blender_session_lease_seconds = 3600.0
+snapshot_compress = false
+load_ui_on_restore = true
+sam3_confidence_threshold = 0.5
+sam3_overlay_opacity = 0.45
+recursion_limit = 100
+
+[workflow.roi_focus]
+enabled = true
+margin_ratio = 0.2
+maximum_zoom_factor = 12.0
+
+[workflow.quadloc]
+max_depth = 5
+max_backtracks = 3
+region_expansion_ratio = 0.2
+overlay_opacity = 0.38
+artifact_root = "output/tools/quadloc"
+model_segmentation_prompt = "3D model"
+sam3_confidence_threshold = 0.5
+sam3_overlay_opacity = 0.45
+llm_role = "quadloc"
+nearest_point_chunk_size = 262144
+
+[workflow.part_segmentation]
+max_subparts = 8
+artifact_root = "output/tools/part-segmentation-with-sam3"
+llm_role = "translator"
+sam3_confidence_threshold = 0.5
+sam3_overlay_opacity = 0.45
+roi_padding_ratio = 0.15
+parent_mask_dilation_pixels = 4
+max_synonym_attempts = 2
+minimum_child_parent_containment = 0.8
+minimum_parent_coverage = 0.8
+maximum_pairwise_overlap_ratio = 0.2
+maximum_uncovered_component_ratio = 0.15
+max_instances_per_prompt = 8
+duplicate_candidate_iou = 0.95
+max_candidate_combinations = 50000
+lasso_padding_pixels = 6
+lasso_padding_retry_multiplier = 2
+lasso_max_padding_increases = 5
+lasso_simplify_tolerance_pixels = 1.0
+max_lasso_points = 4096
+lasso_time_step_seconds = 0.01
+use_front_faces_only = false
+
+[workflow.drag]
+llm_role = "translator"
+minimum_distance_pixels = 8.0
+maximum_distance_ratio = 0.6
+stroke_spacing_pixels = 6.0
+safe_anchor_minimum_margin_pixels = 4.0
+safe_anchor_brush_radius_ratio = 0.25
+safe_anchor_component_depth_ratio = 0.5
+brush_anchor_extent_percentile = 95.0
+pose_brush_name = "Pose"
+pose_brush_size = 10
+pose_brush_strength = 1.0
+pose_deformation_target = "GEOMETRY"
+pose_rotation_origins = "FACE_SETS"
+pose_origin_offset = 0.0
+pose_smooth_iterations = 100
+pose_connected_only = false
+pose_max_element_distance = 0.1
+
+[workflow.draw]
+llm_role = "svg_pattern_generator"
+artifact_root = "output/tools/generate-svg-pattern"
+trajectory_artifact_root = "output/tools/svg-to-mouse-trajectories"
+trajectory_point_spacing_pixels = 4.0
+trajectory_flattening_spacing_pixels = 1.0
+font_name = "DejaVu Sans"
+stroke_method = "SPACE"
+brush_spacing_percent = 5
+use_space_attenuation = true
+auto_smooth_factor = 0.2
+finishing_smooth_enabled = true
+finishing_smooth_brush_name = "Smooth"
+finishing_smooth_size_ratio = 1.0
+finishing_smooth_strength = 0.2
+finishing_smooth_direction = "SMOOTH"
+finishing_smooth_dyntopo_enabled = false
+brush_size_ratio = 0.1
+minimum_brush_size = 6
+maximum_brush_size = 96
+
+[workflow.draw.fit]
+artifact_root = "output/tools/fit-svg-trajectories-to-mask"
+containment_margin_pixels = 1.0
+small_boundary_clearance_ratio = 0.45
+medium_boundary_clearance_ratio = 0.28
+large_boundary_clearance_ratio = 0.05
+optimization_max_dimension = 640
+rotation_coarse_step_degrees = 15.0
+rotation_refine_step_degrees = 3.0
+rotation_fine_step_degrees = 0.5
+scale_search_iterations = 10
+
+[workflow.draw.text]
+artifact_root = "output/tools/text-to-mouse-trajectories"
+maximum_characters = 64
+maximum_layout_lanes = 8
+base_font_size = 100.0
+skeleton_raster_scale = 2.0
+centerline_sample_spacing = 2.0
+centerline_simplify_tolerance = 0.5
+skeleton_spur_prune_length = 2.0
+line_gap_ratio = 0.2
+canonical_canvas_margin = 8.0
+
+[workflow.minimum_effect]
+enabled = true
+capture_warmup_redraws = 2
+baseline_capture_attempts = 3
+comparison_blur_kernel_size = 3
+baseline_noise_percentile = 95.0
+pixel_delta_floor = 3.0
+maximum_baseline_noise = 5.0
+minimum_evaluation_pixels = 256
+roi_padding_ratio = 0.15
+no_effect_fraction = 0.01
+subtle_minimum_mean_abs_diff = 1.0
+subtle_minimum_changed_fraction = 0.05
+medium_minimum_mean_abs_diff = 2.0
+medium_minimum_changed_fraction = 0.15
+strong_minimum_mean_abs_diff = 3.0
+strong_minimum_changed_fraction = 0.25
+
+[workflow.parameter_resolution]
+local_size_ratio = 0.25
+regional_size_ratio = 0.45
+broad_size_ratio = 0.65
+retry_dose_multiplier = 1.35
+maximum_brush_size = 10000
+maximum_brush_strength = 1.0
+maximum_pass_count = 4
+
+[workflow.operation_defaults.Smear]
+dyntopo_enabled = true
+dyntopo_detail_size = 2.0
+
+[workflow.operation_defaults.Drag]
+dyntopo_enabled = true
+dyntopo_detail_size = 2.0
+
+[workflow.operation_defaults.Draw]
+dyntopo_enabled = true
+dyntopo_detail_size = 1.0
